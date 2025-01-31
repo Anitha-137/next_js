@@ -26,10 +26,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/nextjs-hello-world
+            cd /var/www/next-app
             git fetch --all
             git reset --hard origin/main
             rm -rf .next  # Delete the .next directory
             npm install
             npm run build
-            pm2 restart nextjs-hello-world
+            pm2 restart nextjs-app
