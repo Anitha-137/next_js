@@ -10,40 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - name: Install dependencies
+        run: npm install
 
-      - name: Install Dependencies & Build
-        run: |
-          npm install
-          npm run build
+      - name: Build the project
+        run: npm run build
 
       - name: Deploy to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "."
-          target: "/var/www/next-app"
-
-      - name: Restart App on EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/next-app
+            cd /home/ec2-user/nextjs-hello-world
+            git fetch --all
+            git reset --hard origin/main
+            rm -rf .next  # Delete the .next directory
             npm install
             npm run build
-            pm2 restart nextjs-app || pm2 start npm --name "nextjs-app" -- start
-
-      - name: Extract Files on EC2
-        run: |
-          tar -xzvf your-archive.tar.gz --no-same-owner
+            pm2 restart nextjs-hello-world
