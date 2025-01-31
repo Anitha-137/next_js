@@ -27,9 +27,17 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/next-app
+            echo "Current branch: $(git branch --show-current)"
+            echo "Fetching latest changes..."
             git fetch --all
+            echo "Resetting to origin/main..."
             git reset --hard origin/main
-            rm -rf .next  # Delete the .next directory
+            echo "Cleaning up .next directory..."
+            rm -rf .next
+            echo "Installing dependencies..."
             npm install
+            echo "Building the project..."
             npm run build
+            echo "Restarting PM2 process..."
             pm2 restart nextjs-app
+            echo "Deployment complete!"
