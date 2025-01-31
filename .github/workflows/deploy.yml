@@ -43,3 +43,7 @@ jobs:
             npm install
             npm run build
             pm2 restart nextjs-app || pm2 start npm --name "nextjs-app" -- start
+
+      - name: Extract Files on EC2
+        run: |
+          tar -xzvf your-archive.tar.gz --no-same-owner
