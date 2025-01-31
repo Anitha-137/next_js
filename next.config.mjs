@@ -6,8 +6,8 @@ const nextConfig = {
   output: 'export', // Required for static export
 
   // Base path and asset prefix for GitHub Pages
-  basePath: isGithubPages ? '/Next_js' : '', // Replace with your repo name
-  assetPrefix: isGithubPages ? '/Next_js/' : '', // Replace with your repo name
+  basePath: isGithubPages ? '/next_js' : '', // Replace with your repo name
+  assetPrefix: isGithubPages ? '/next_js/' : '', // Replace with your repo name
 
   // Image optimization (disabled for static export)
   images: {
