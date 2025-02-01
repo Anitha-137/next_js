@@ -23,25 +23,4 @@ jobs:
       # Step 3: Deploy to EC2 using SSH
       - name: Deploy to EC2
         run: |
-          # Connect to EC2 and deploy the app
-          ssh -o StrictHostKeyChecking=accept-new ${EC2_USER}@${EC2_HOST} << 'EOF'
-            # Navigate to the project directory
-            cd /var/www/next-app || exit
-
-            # Pull the latest code from GitHub
-            git pull origin main
-
-            # Install dependencies
-            npm install
-
-            # Build the application
-            npm run build
-
-            # Restart the application using pm2 or another process manager
-            pm2 restart nextjs-app || pm2 start npm --name "nextjs-app" -- start
-          EOF
-
-
-
-
-
+          ssh -o StrictHostKeyChecking=accept-new ${EC2_USER}@${EC2_HOST} "cd /var/www/next-app && git pull origin main && npm install && npm run build && pm2 restart nextjs-app || pm2 start npm --name 'nextjs-app' -- start"
