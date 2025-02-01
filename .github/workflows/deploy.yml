@@ -36,7 +36,7 @@ jobs:
             # Pull the latest code from GitHub
             git pull origin main
 
-            # Install dependencies (if needed)
+            
             npm install
 
             # Build the project
