@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITHUB_PAGES: 'true'  # Set the environment variable for GitHub Pages
+      GITHUB_PAGES: 'true'  # Required for basePath logic
 
     steps:
       - name: Checkout code
@@ -25,10 +25,13 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: npm run build  # This will generate the static files in the `out` directory
+        run: npm run build
+
+      - name: Export static site
+        run: npm run export  # ✅ This creates ./out for GitHub Pages
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
-          publish_dir: ./out  # Deploy the `out` directory
+          publish_dir: ./out  # Must point to export folder
